@@ -1,0 +1,21 @@
+Result for MLPClassifier(activation='relu', alpha=1, batch_size='auto', beta_1=0.9,
+       beta_2=0.999, early_stopping=False, epsilon=1e-08,
+       hidden_layer_sizes=(100,), learning_rate='constant',
+       learning_rate_init=0.001, max_iter=200, momentum=0.9,
+       nesterovs_momentum=True, power_t=0.5, random_state=None,
+       shuffle=True, solver='adam', tol=0.0001, validation_fraction=0.1,
+       verbose=False, warm_start=False)
+0.5643713914220045
+[[5966 1084    0  120]
+ [1875 2747    3  904]
+ [ 291  501  289 1209]
+ [ 558 1699   40 1783]]
+             precision    recall  f1-score   support
+
+       I-MF       0.69      0.83      0.75      7170
+       I-MM       0.46      0.50      0.48      5529
+       I-NE       0.87      0.13      0.22      2290
+       I-SE       0.44      0.44      0.44      4080
+
+avg / total       0.59      0.57      0.54     19069
+

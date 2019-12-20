@@ -1,0 +1,18 @@
+Result for LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
+          intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=1,
+          penalty='l2', random_state=1234, solver='liblinear', tol=0.0001,
+          verbose=0, warm_start=False)
+0.6625410276712901
+[[6387  713    8   62]
+ [1930 3041   73  485]
+ [  92  185 1415  598]
+ [ 644 1349  300 1787]]
+             precision    recall  f1-score   support
+
+       I-MF       0.71      0.89      0.79      7170
+       I-MM       0.58      0.55      0.56      5529
+       I-NE       0.79      0.62      0.69      2290
+       I-SE       0.61      0.44      0.51      4080
+
+avg / total       0.66      0.66      0.65     19069
+

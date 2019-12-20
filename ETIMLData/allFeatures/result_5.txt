@@ -1,0 +1,16 @@
+Result for AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
+          learning_rate=1.0, n_estimators=50, random_state=None)
+0.6699879936457663
+[[6000 1099    5   66]
+ [1552 2995   57  925]
+ [  35   72 1843  340]
+ [ 371 1337  455 1917]]
+             precision    recall  f1-score   support
+
+       I-MF       0.75      0.84      0.79      7170
+       I-MM       0.54      0.54      0.54      5529
+       I-NE       0.78      0.80      0.79      2290
+       I-SE       0.59      0.47      0.52      4080
+
+avg / total       0.66      0.67      0.66     19069
+

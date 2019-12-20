@@ -1,0 +1,16 @@
+Result for LinearDiscriminantAnalysis(n_components=None, priors=None, shrinkage=None,
+              solver='svd', store_covariance=False, tol=0.0001)
+0.8874087624376091
+[[6625  504    7   34]
+ [ 239 4751   11  528]
+ [  25   24 1970  271]
+ [  27  336  148 3569]]
+             precision    recall  f1-score   support
+
+       I-MF       0.96      0.92      0.94      7170
+       I-MM       0.85      0.86      0.85      5529
+       I-NE       0.92      0.86      0.89      2290
+       I-SE       0.81      0.87      0.84      4080
+
+avg / total       0.89      0.89      0.89     19069
+

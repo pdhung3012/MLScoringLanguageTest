@@ -1,0 +1,18 @@
+Result for LinearSVC(C=1.0, class_weight=None, dual=True, fit_intercept=True,
+     intercept_scaling=1, loss='squared_hinge', max_iter=1000,
+     multi_class='ovr', penalty='l2', random_state=1234, tol=0.0001,
+     verbose=0)
+0.5372595083777612
+[[6452  554    0  164]
+ [2681 1769    0 1079]
+ [ 409  271   79 1531]
+ [ 940 1186    0 1954]]
+             precision    recall  f1-score   support
+
+       I-MF       0.62      0.90      0.73      7170
+       I-MM       0.47      0.32      0.38      5529
+       I-NE       1.00      0.03      0.07      2290
+       I-SE       0.41      0.48      0.44      4080
+
+avg / total       0.58      0.54      0.49     19069
+

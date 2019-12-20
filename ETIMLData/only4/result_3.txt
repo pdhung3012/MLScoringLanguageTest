@@ -1,0 +1,20 @@
+Result for DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=None,
+            max_features=None, max_leaf_nodes=None,
+            min_impurity_decrease=0.0, min_impurity_split=None,
+            min_samples_leaf=1, min_samples_split=2,
+            min_weight_fraction_leaf=0.0, presort=False, random_state=None,
+            splitter='best')
+0.8074880142799682
+[[6499  596   16   59]
+ [ 524 4202   42  761]
+ [  16   50 1860  364]
+ [  85  808  393 2794]]
+             precision    recall  f1-score   support
+
+       I-MF       0.91      0.91      0.91      7170
+       I-MM       0.74      0.76      0.75      5529
+       I-NE       0.80      0.81      0.81      2290
+       I-SE       0.70      0.68      0.69      4080
+
+avg / total       0.81      0.81      0.81     19069
+

@@ -1,0 +1,177 @@
+Result for GaussianNB(priors=None)
+0.5824112963175928
+[[5261 1517   14  378]
+ [1378 2321  207 1623]
+ [  39  151 1611  489]
+ [ 339 1073  750 1918]]
+             precision    recall  f1-score   support
+
+       I-MF       0.75      0.73      0.74      7170
+       I-MM       0.46      0.42      0.44      5529
+       I-NE       0.62      0.70      0.66      2290
+       I-SE       0.44      0.47      0.45      4080
+
+avg / total       0.58      0.58      0.58     19069
+Result for LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
+          intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=1,
+          penalty='l2', random_state=1234, solver='liblinear', tol=0.0001,
+          verbose=0, warm_start=False)
+0.6625410276712901
+[[6387  713    8   62]
+ [1930 3041   73  485]
+ [  92  185 1415  598]
+ [ 644 1349  300 1787]]
+             precision    recall  f1-score   support
+
+       I-MF       0.71      0.89      0.79      7170
+       I-MM       0.58      0.55      0.56      5529
+       I-NE       0.79      0.62      0.69      2290
+       I-SE       0.61      0.44      0.51      4080
+
+avg / total       0.66      0.66      0.65     19069
+Result for DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=None,
+            max_features=None, max_leaf_nodes=None,
+            min_impurity_decrease=0.0, min_impurity_split=None,
+            min_samples_leaf=1, min_samples_split=2,
+            min_weight_fraction_leaf=0.0, presort=False, random_state=None,
+            splitter='best')
+0.8074880142799682
+[[6499  596   16   59]
+ [ 524 4202   42  761]
+ [  16   50 1860  364]
+ [  85  808  393 2794]]
+             precision    recall  f1-score   support
+
+       I-MF       0.91      0.91      0.91      7170
+       I-MM       0.74      0.76      0.75      5529
+       I-NE       0.80      0.81      0.81      2290
+       I-SE       0.70      0.68      0.69      4080
+
+avg / total       0.81      0.81      0.81     19069
+
+Result for RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
+            max_depth=None, max_features='auto', max_leaf_nodes=None,
+            min_impurity_decrease=0.0, min_impurity_split=None,
+            min_samples_leaf=1, min_samples_split=2,
+            min_weight_fraction_leaf=0.0, n_estimators=50, n_jobs=1,
+            oob_score=False, random_state=1234, verbose=0,
+            warm_start=False)
+0.8167705438240184
+[[6612  504    7   47]
+ [ 471 4245   32  781]
+ [   9   33 1893  355]
+ [  61  804  360 2855]]
+             precision    recall  f1-score   support
+
+       I-MF       0.92      0.92      0.92      7170
+       I-MM       0.76      0.77      0.76      5529
+       I-NE       0.83      0.83      0.83      2290
+       I-SE       0.71      0.70      0.70      4080
+
+avg / total       0.82      0.82      0.82     19069
+
+Result for AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
+          learning_rate=1.0, n_estimators=50, random_state=None)
+0.679007808532215
+[[5978 1124    6   62]
+ [1453 3157   70  849]
+ [  26  101 1810  353]
+ [ 302 1334  507 1937]]
+             precision    recall  f1-score   support
+
+       I-MF       0.77      0.83      0.80      7170
+       I-MM       0.55      0.57      0.56      5529
+       I-NE       0.76      0.79      0.77      2290
+       I-SE       0.61      0.47      0.53      4080
+
+avg / total       0.67      0.68      0.67     19069
+
+Result for LinearDiscriminantAnalysis(n_components=None, priors=None, shrinkage=None,
+              solver='svd', store_covariance=False, tol=0.0001)
+0.7548368770053006
+[[5999 1013    4  154]
+ [ 811 3811   21  886]
+ [  34  182 1529  545]
+ [ 207  676  139 3058]]
+             precision    recall  f1-score   support
+
+       I-MF       0.85      0.84      0.84      7170
+       I-MM       0.67      0.69      0.68      5529
+       I-NE       0.90      0.67      0.77      2290
+       I-SE       0.66      0.75      0.70      4080
+
+avg / total       0.76      0.75      0.76     19069
+
+Result for QuadraticDiscriminantAnalysis(priors=None, reg_param=0.0,
+               store_covariance=False, store_covariances=None, tol=0.0001)
+0.7272017656273816
+[[6137  846   24  163]
+ [1102 3388   88  951]
+ [  20   83 1299  888]
+ [ 274  589  186 3031]]
+             precision    recall  f1-score   support
+
+       I-MF       0.81      0.86      0.83      7170
+       I-MM       0.69      0.61      0.65      5529
+       I-NE       0.81      0.57      0.67      2290
+       I-SE       0.60      0.74      0.67      4080
+
+avg / total       0.73      0.73      0.72     19069
+Result for LinearSVC(C=1.0, class_weight=None, dual=True, fit_intercept=True,
+     intercept_scaling=1, loss='squared_hinge', max_iter=1000,
+     multi_class='ovr', penalty='l2', random_state=1234, tol=0.0001,
+     verbose=0)
+0.7439819937701219
+[[6506  553   14   97]
+ [1574 3220   85  650]
+ [  75   85 1802  328]
+ [ 428  694  297 2661]]
+             precision    recall  f1-score   support
+
+       I-MF       0.76      0.91      0.83      7170
+       I-MM       0.71      0.58      0.64      5529
+       I-NE       0.82      0.79      0.80      2290
+       I-SE       0.71      0.65      0.68      4080
+
+avg / total       0.74      0.74      0.74     19069
+Result for MLPClassifier(activation='relu', alpha=1, batch_size='auto', beta_1=0.9,
+       beta_2=0.999, early_stopping=False, epsilon=1e-08,
+       hidden_layer_sizes=(100,), learning_rate='constant',
+       learning_rate_init=0.001, max_iter=200, momentum=0.9,
+       nesterovs_momentum=True, power_t=0.5, random_state=None,
+       shuffle=True, solver='adam', tol=0.0001, validation_fraction=0.1,
+       verbose=False, warm_start=False)
+0.6101009920373991
+[[5890 1154    3  123]
+ [1682 2861   83  903]
+ [  52  301 1302  635]
+ [ 454 1596  451 1579]]
+             precision    recall  f1-score   support
+
+       I-MF       0.73      0.82      0.77      7170
+       I-MM       0.48      0.52      0.50      5529
+       I-NE       0.71      0.57      0.63      2290
+       I-SE       0.49      0.39      0.43      4080
+
+avg / total       0.60      0.61      0.60     19069
+Result for GradientBoostingClassifier(criterion='friedman_mse', init=None,
+              learning_rate=0.1, loss='deviance', max_depth=5,
+              max_features=None, max_leaf_nodes=None,
+              min_impurity_decrease=0.0, min_impurity_split=None,
+              min_samples_leaf=1, min_samples_split=2,
+              min_weight_fraction_leaf=0.0, n_estimators=100,
+              presort='auto', random_state=1234, subsample=1.0, verbose=0,
+              warm_start=False)
+0.7935394314094372
+[[6300  800   10   60]
+ [ 752 4160   42  575]
+ [  20   86 1879  305]
+ [ 168  771  290 2851]]
+             precision    recall  f1-score   support
+
+       I-MF       0.87      0.88      0.87      7170
+       I-MM       0.72      0.75      0.73      5529
+       I-NE       0.85      0.82      0.83      2290
+       I-SE       0.75      0.70      0.72      4080
+
+avg / total       0.80      0.80      0.80     19069
