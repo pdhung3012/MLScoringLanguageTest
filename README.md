@@ -7,4 +7,4 @@ Machine Learning algorithms to learn the correlation between the input vector an
 while each levels has 4 types:  MF, MM, SE, NE. Besides, our approach is available for predicting the topic of the response from test takers.
 We evaluate MLScoring by 2 directions: using 10 fold cross validation and using training data for 2018 dataset and testing data as 2019 dataset both provided by the ETI company.
 We achieve promising results for both the topic classification and score classification in these directions for 3 levels: Novice, Advance and Intermediate.
-The best Machine Learning algorithms we had from the evaluation are LDA and Gradient Boosting.
+The best Machine Learning algorithms we had from the evaluation are LDA and Gradient Boosting, which are over 91% in average precision.
