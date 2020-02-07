@@ -1,0 +1,16 @@
+{
+  "input": {
+    "voice": "input.mp3",
+    "text": "hello world",
+    "level": "Intermediate"
+  },
+  "config": {
+    "trainEngine":"default/2018/2019",
+    "typeOfPredict":"default/response/topic",
+    "structure":"default/text/POS"
+  },
+  "output": {
+    "topicClassificationResult":"SCHOOL",
+    "responseClassificationResult":"I-MF"
+  }s
+}
