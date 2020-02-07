@@ -1,0 +1,184 @@
+Result for GaussianNB(priors=None, var_smoothing=1e-09)
+0.8932114965049097
+[[2791  481   62]
+ [   7 3297   29]
+ [  14  486 2834]]
+                     precision    recall  f1-score   support
+
+Self Recommnedation       0.99      0.84      0.91      3334
+       Social media       0.77      0.99      0.87      3333
+       Summer Break       0.97      0.85      0.91      3334
+
+          micro avg       0.89      0.89      0.89     10001
+          macro avg       0.91      0.89      0.89     10001
+       weighted avg       0.91      0.89      0.89     10001
+
+Result for LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
+          intercept_scaling=1, max_iter=100, multi_class='warn',
+          n_jobs=None, penalty='l2', random_state=1234, solver='warn',
+          tol=0.0001, verbose=0, warm_start=False)
+0.9682077352736036
+[[3129  195   10]
+ [   6 3318    9]
+ [   3   95 3236]]
+                     precision    recall  f1-score   support
+
+Self Recommnedation       1.00      0.94      0.97      3334
+       Social media       0.92      1.00      0.96      3333
+       Summer Break       0.99      0.97      0.98      3334
+
+          micro avg       0.97      0.97      0.97     10001
+          macro avg       0.97      0.97      0.97     10001
+       weighted avg       0.97      0.97      0.97     10001
+
+Result for DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=None,
+            max_features=None, max_leaf_nodes=None,
+            min_impurity_decrease=0.0, min_impurity_split=None,
+            min_samples_leaf=1, min_samples_split=2,
+            min_weight_fraction_leaf=0.0, presort=False, random_state=None,
+            splitter='best')
+0.9647008341619122
+[[3238   70   26]
+ [ 131 3179   23]
+ [  83   25 3226]]
+                     precision    recall  f1-score   support
+
+Self Recommnedation       0.94      0.97      0.95      3334
+       Social media       0.97      0.95      0.96      3333
+       Summer Break       0.99      0.97      0.98      3334
+
+          micro avg       0.96      0.96      0.96     10001
+          macro avg       0.96      0.96      0.96     10001
+       weighted avg       0.96      0.96      0.96     10001
+
+Result for RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
+            max_depth=None, max_features='auto', max_leaf_nodes=None,
+            min_impurity_decrease=0.0, min_impurity_split=None,
+            min_samples_leaf=1, min_samples_split=2,
+            min_weight_fraction_leaf=0.0, n_estimators=50, n_jobs=None,
+            oob_score=False, random_state=1234, verbose=0,
+            warm_start=False)
+0.9705972487409612
+[[3251   60   23]
+ [ 110 3200   23]
+ [  61   20 3253]]
+                     precision    recall  f1-score   support
+
+Self Recommnedation       0.95      0.98      0.96      3334
+       Social media       0.98      0.96      0.97      3333
+       Summer Break       0.99      0.98      0.98      3334
+
+          micro avg       0.97      0.97      0.97     10001
+          macro avg       0.97      0.97      0.97     10001
+       weighted avg       0.97      0.97      0.97     10001
+
+Result for AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
+          learning_rate=1.0, n_estimators=50, random_state=None)
+0.9566045164847561
+[[3256   60   18]
+ [ 129 3182   22]
+ [ 173   20 3141]]
+                     precision    recall  f1-score   support
+
+Self Recommnedation       0.92      0.98      0.94      3334
+       Social media       0.98      0.95      0.96      3333
+       Summer Break       0.99      0.94      0.96      3334
+
+          micro avg       0.96      0.96      0.96     10001
+          macro avg       0.96      0.96      0.96     10001
+       weighted avg       0.96      0.96      0.96     10001
+
+Result for LinearDiscriminantAnalysis(n_components=None, priors=None, shrinkage=None,
+              solver='svd', store_covariance=False, tol=0.0001)
+0.9695070365729048
+[[3152  173    9]
+ [  14 3309   10]
+ [   7   89 3238]]
+                     precision    recall  f1-score   support
+
+Self Recommnedation       0.99      0.95      0.97      3334
+       Social media       0.93      0.99      0.96      3333
+       Summer Break       0.99      0.97      0.98      3334
+
+          micro avg       0.97      0.97      0.97     10001
+          macro avg       0.97      0.97      0.97     10001
+       weighted avg       0.97      0.97      0.97     10001
+
+Result for QuadraticDiscriminantAnalysis(priors=None, reg_param=0.0,
+               store_covariance=False, store_covariances=None, tol=0.0001)
+0.9723004507435645
+[[3303   17   14]
+ [ 149 3172   12]
+ [  81    8 3245]]
+                     precision    recall  f1-score   support
+
+Self Recommnedation       0.93      0.99      0.96      3334
+       Social media       0.99      0.95      0.97      3333
+       Summer Break       0.99      0.97      0.98      3334
+
+          micro avg       0.97      0.97      0.97     10001
+          macro avg       0.97      0.97      0.97     10001
+       weighted avg       0.97      0.97      0.97     10001
+
+Result for LinearSVC(C=1.0, class_weight=None, dual=True, fit_intercept=True,
+     intercept_scaling=1, loss='squared_hinge', max_iter=1000,
+     multi_class='ovr', penalty='l2', random_state=1234, tol=0.0001,
+     verbose=0)
+0.9698010425555339
+[[3151  171   12]
+ [  14 3304   15]
+ [   9   82 3243]]
+                     precision    recall  f1-score   support
+
+Self Recommnedation       0.99      0.95      0.97      3334
+       Social media       0.93      0.99      0.96      3333
+       Summer Break       0.99      0.97      0.98      3334
+
+          micro avg       0.97      0.97      0.97     10001
+          macro avg       0.97      0.97      0.97     10001
+       weighted avg       0.97      0.97      0.97     10001
+
+Result for MLPClassifier(activation='relu', alpha=1, batch_size='auto', beta_1=0.9,
+       beta_2=0.999, early_stopping=False, epsilon=1e-08,
+       hidden_layer_sizes=(100,), learning_rate='constant',
+       learning_rate_init=0.001, max_iter=200, momentum=0.9,
+       n_iter_no_change=10, nesterovs_momentum=True, power_t=0.5,
+       random_state=None, shuffle=True, solver='adam', tol=0.0001,
+       validation_fraction=0.1, verbose=False, warm_start=False)
+0.9552909250514039
+[[3074  240   20]
+ [   4 3324    5]
+ [  14  179 3141]]
+                     precision    recall  f1-score   support
+
+Self Recommnedation       0.99      0.92      0.96      3334
+       Social media       0.89      1.00      0.94      3333
+       Summer Break       0.99      0.94      0.97      3334
+
+          micro avg       0.95      0.95      0.95     10001
+          macro avg       0.96      0.95      0.95     10001
+       weighted avg       0.96      0.95      0.95     10001
+
+Result for GradientBoostingClassifier(criterion='friedman_mse', init=None,
+              learning_rate=0.1, loss='deviance', max_depth=5,
+              max_features=None, max_leaf_nodes=None,
+              min_impurity_decrease=0.0, min_impurity_split=None,
+              min_samples_leaf=1, min_samples_split=2,
+              min_weight_fraction_leaf=0.0, n_estimators=100,
+              n_iter_no_change=None, presort='auto', random_state=1234,
+              subsample=1.0, tol=0.0001, validation_fraction=0.1,
+              verbose=0, warm_start=False)
+0.9709055418636258
+[[3260   53   21]
+ [ 113 3198   22]
+ [  63   19 3252]]
+                     precision    recall  f1-score   support
+
+Self Recommnedation       0.95      0.98      0.96      3334
+       Social media       0.98      0.96      0.97      3333
+       Summer Break       0.99      0.98      0.98      3334
+
+          micro avg       0.97      0.97      0.97     10001
+          macro avg       0.97      0.97      0.97     10001
+       weighted avg       0.97      0.97      0.97     10001
+
