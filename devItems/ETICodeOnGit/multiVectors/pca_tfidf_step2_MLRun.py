@@ -48,10 +48,10 @@ for idx in range(0,len(arrConfigs)):
     all_data = df_all.drop(['no','score'],axis=1)
 
     # create a list of classifiers
-    random_seed = 1234
+    random_seed = 2
     classifiers = [GaussianNB(), LogisticRegression(random_state=random_seed),DecisionTreeClassifier(),
                    RandomForestClassifier(random_state=random_seed, n_estimators=50), AdaBoostClassifier(), LinearDiscriminantAnalysis(),QuadraticDiscriminantAnalysis(),
-                   LinearSVC(random_state=random_seed), MLPClassifier(alpha=1), GradientBoostingClassifier(random_state=random_seed,  max_depth=5)]
+                   LinearSVC(random_state=random_seed), MLPClassifier(alpha=1), GradientBoostingClassifier(random_state=random_seed,  max_depth=3)]
 
     # fit and evaluate for 10-cv
     index = 0
