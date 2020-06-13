@@ -37,7 +37,7 @@ def getData(fpInputYear,fpOutputYear,prefix):
         strResponse = str(columnResponse[i]).replace("<p>", "").replace("</p>", "").replace("<br>", "")
         corpus.append(strResponse)
 
-    vectorizer = TfidfVectorizer(ngram_range=(1, 2))
+    vectorizer = TfidfVectorizer(ngram_range=(1, 1))
     X = vectorizer.fit_transform(corpus)
     X = X.toarray()
     # pca = PCA(n_components=50)
@@ -77,7 +77,7 @@ def getData(fpInputYear,fpOutputYear,prefix):
 
 
 def main():
-    folder = "../../../../resultETI/raw_tf_idf_2/"
+    folder = "../../../../resultETI/raw_tf_idf_1/"
     createDir(folder)
 
     fpInput = 'all-formA.csv'
