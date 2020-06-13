@@ -37,7 +37,7 @@ def getData(fpInputYear,fpOutputYear,prefix):
         strResponse = str(columnResponse[i]).replace("<p>", "").replace("</p>", "").replace("<br>", "")
         corpus.append(strResponse)
 
-    vectorizer = TfidfVectorizer(ngram_range=(1, 4))
+    vectorizer = TfidfVectorizer(ngram_range=(1, 2))
     X = vectorizer.fit_transform(corpus)
     X = X.toarray()
     # pca = PCA(n_components=50)
