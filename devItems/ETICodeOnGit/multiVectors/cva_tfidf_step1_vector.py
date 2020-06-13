@@ -10,6 +10,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 from scipy.spatial.distance import cosine
 import nltk
 import os
+from multiVectors.utils import createDir
+
 # def getPOSFromResponse(string):
 #     # li = list(string.split(" "))
 #     string = str(string).replace("<p>", "").replace("</p>", "")
@@ -162,34 +164,33 @@ def getDataByNGram(fpInputYear,fpOutputYear,prefix,nGram):
 
 
 def main():
-    # fpInputYear2018 = 'ratingPositionFilter_2018.csv'
-    # fpOutputYear2018 = 'vector_pos_ratingPositionFilter_2018.csv'
-    # fpInputYear2019 = 'ratingPositionFilter_2019.csv'
-    # fpOutputYear2019 = 'vector_pos_ratingPositionFilter_2019.csv'
     arrNGram=[1,2,3,4]
     fpInput = 'all-formA.csv'
+    folder = "../../../../resultETI/cva_tf_idf_4/"
 
-    for idx in range(0,len(arrNGram)):
-        folder="10cv_"+str(arrNGram[idx])+"/"
+    createDir(folder)
 
-        try:
-            # Create target Directory
-            os.mkdir(folder)
-            print("Directory ", folder, " Created ")
-        except FileExistsError:
-            print("Directory ", folder, " already exists")
-
-        fpOutputIntermediate = folder+'AI_10cv.csv'
-        fpOutputNovice = folder+'AN_10cv.csv'
-
-        fpFormBInput = 'all-formB.csv'
-        fpOutputFormBIntermediate = folder+'BI_10cv.csv'
-        fpOutputFormBAdvance = folder+'BA_10cv.csv'
+    # for idx in range(0,len(arrNGram)):
 
 
-        getDataByNGram(fpInput, fpOutputIntermediate,'I-',arrNGram[idx])
-        getDataByNGram(fpInput, fpOutputNovice, 'N-',arrNGram[idx])
-        getDataByNGram(fpFormBInput, fpOutputFormBIntermediate, 'I-',arrNGram[idx])
-        getDataByNGram(fpFormBInput, fpOutputFormBAdvance, 'A-',arrNGram[idx])
+    try:
+        # Create target Directory
+        os.mkdir(folder)
+        print("Directory ", folder, " Created ")
+    except FileExistsError:
+        print("Directory ", folder, " already exists")
+
+    fpOutputIntermediate = folder+'AI_10cv.csv'
+    fpOutputNovice = folder+'AN_10cv.csv'
+
+    fpFormBInput = 'all-formB.csv'
+    fpOutputFormBIntermediate = folder+'BI_10cv.csv'
+    fpOutputFormBAdvance = folder+'BA_10cv.csv'
+
+
+    getDataByNGram(fpInput, fpOutputIntermediate,'I-',4)
+    getDataByNGram(fpInput, fpOutputNovice, 'N-',4)
+    getDataByNGram(fpFormBInput, fpOutputFormBIntermediate, 'I-',4)
+    getDataByNGram(fpFormBInput, fpOutputFormBAdvance, 'A-',4)
 
 main()
