@@ -77,7 +77,7 @@ def getData(fpInputYear,fpOutputYear,prefix):
 
 
 def main():
-    folder = "../../../../resultETI/raw_tf_idf_4/"
+    folder = "../../../../resultETI/raw_tf_idf_2/"
     createDir(folder)
 
     fpInput = 'all-formA.csv'
