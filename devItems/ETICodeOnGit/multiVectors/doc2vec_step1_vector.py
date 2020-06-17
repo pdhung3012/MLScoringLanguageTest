@@ -12,9 +12,11 @@ import nltk
 from sklearn.decomposition import PCA
 import os
 from multiVectors.utils import createDir
+from gensim.models.doc2vec import Doc2Vec, TaggedDocument
+from nltk.tokenize import word_tokenize
 
 
-def getData(fpInputYear,fpOutputYear,prefix):
+def getDataD2v(fpInputYear,fpOutputYear,fpD2v,prefix):
 
     my_csv = pd.read_csv(fpInputYear)
     my_csv = my_csv.drop(my_csv[~my_csv.Score.str.startswith(prefix, na=False)].index)
@@ -36,17 +38,51 @@ def getData(fpInputYear,fpOutputYear,prefix):
         #     continue
         strResponse = str(columnResponse[i]).replace("<p>", "").replace("</p>", "").replace("<br>", "")
         corpus.append(strResponse)
+    tagged_data = [TaggedDocument(words=word_tokenize(_d), tags=[str(i)]) for i, _d in enumerate(corpus)]
 
-    vectorizer = TfidfVectorizer(ngram_range=(1, 1))
-    X = vectorizer.fit_transform(corpus)
-    X = X.toarray()
-    pca = PCA(n_components=50)
-    print('prepare to fit transform')
-    X = pca.fit_transform(X)
+    max_epochs = 5
+    vec_size = 20
+    alpha = 0.025
+
+    model = Doc2Vec(size=vec_size,
+                    alpha=alpha,
+                    min_alpha=0.00025,
+                    min_count=1,
+                    dm=0)
+
+    model.build_vocab(tagged_data)
+
+    for epoch in range(max_epochs):
+        # print('iteration {0}'.format(epoch))
+        model.train(tagged_data,
+                    total_examples=model.corpus_count,
+                    epochs=model.iter)
+        # decrease the learning rate
+        model.alpha -= 0.0002
+        # fix the learning rate, no decay
+        model.min_alpha = model.alpha
+        print('End epoch{}'.format(epoch))
+
+    model.save(fpD2v)
+    # model = Doc2Vec.load(fpModelData)
+
+    X=[]
+    for item in corpus:
+        x_data = word_tokenize(item)
+        v1 = model.infer_vector(x_data)
+        X.append(v1)
+
+
+    # vectorizer = TfidfVectorizer(ngram_range=(1, 1))
+    # X = vectorizer.fit_transform(corpus)
+    # X = X.toarray()
+    # pca = PCA(n_components=50)
+    # print('prepare to fit transform')
+    # X = pca.fit_transform(X)
     print('end fit transform')
 
-    arrFeatureNames = vectorizer.get_feature_names()
-    print('names: ' + str(len(arrFeatureNames)) + ' ' + str(arrFeatureNames))
+    # arrFeatureNames = vectorizer.get_feature_names()
+    # print('names: ' + str(len(arrFeatureNames)) + ' ' + str(arrFeatureNames))
     lenVector = len(X[0])
 
     csv = open(fpOutputYear, 'w')
@@ -77,21 +113,25 @@ def getData(fpInputYear,fpOutputYear,prefix):
 
 
 def main():
-    folder = "../../../../resultETI/pca_tf_idf_1/"
+    folder = "../../../../resultETI/d2v/"
     createDir(folder)
 
     fpInput = 'all-formA.csv'
     fpOutputIntermediate = folder+'AI_10cv.csv'
     fpOutputNovice = folder+'AN_10cv.csv'
+    fpOutputNoviceD2v = folder + 'AN_10cv.d2v.txt'
+    fpOutputIntermediateD2v = folder + 'AI_10cv.d2v.txt'
 
     fpFormBInput = 'all-formB.csv'
     fpOutputFormBIntermediate = folder+'BI_10cv.csv'
     fpOutputFormBAdvance = folder+'BA_10cv.csv'
+    fpOutputFormBIntermediateD2v = folder + 'BI_10cv.d2v.txt'
+    fpOutputFormBAdvanceD2v = folder + 'BA_10cv.d2v.txt'
 
 
-    getData(fpInput, fpOutputIntermediate,'I-')
-    getData(fpInput, fpOutputNovice, 'N-')
-    getData(fpFormBInput, fpOutputFormBIntermediate, 'I-')
-    getData(fpFormBInput, fpOutputFormBAdvance, 'A-')
+    getDataD2v(fpInput, fpOutputIntermediate, fpOutputIntermediateD2v,'I-')
+    getDataD2v(fpInput, fpOutputNovice, fpOutputNoviceD2v, 'N-')
+    getDataD2v(fpFormBInput, fpOutputFormBIntermediate, fpOutputFormBIntermediateD2v, 'I-')
+    getDataD2v(fpFormBInput, fpOutputFormBAdvance, fpOutputFormBAdvanceD2v, 'A-')
 
 main()
