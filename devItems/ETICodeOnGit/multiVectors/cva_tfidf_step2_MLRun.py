@@ -28,8 +28,9 @@ import matplotlib.pyplot as plt
 from multiVectors.utils import createDir
 
 # set file directory
+nGramNum = 3
 arrConfigs=['AI','AN','BI','BA']
-fop="../../../../resultETI/d2v/"
+fop="../../../../resultETI/cva_tf_idf_"+str(nGramNum)+"/"
 createDir(fop)
 
 for idx in range(0,len(arrConfigs)):
@@ -43,15 +44,15 @@ for idx in range(0,len(arrConfigs)):
     # load data for 10-fold cv
     df_all = pd.read_csv(fpInput)
     print(list(df_all.columns.values))
-    all_label = df_all['score']
+    all_label = df_all['expected']
     # all_data = df_all.drop(['label','maxSim','maxSim-r2','maxSim-r3','maxSim-r4','maxSim-p1','maxSim-p2','maxSim-p3','maxSim-p4'],axis=1)
-    all_data = df_all.drop(['no','score'],axis=1)
+    all_data = df_all.drop(['no','testId','topic','maxSim','predicted','expected'],axis=1)
 
     # create a list of classifiers
     random_seed = 2
     classifiers = [GaussianNB(), LogisticRegression(random_state=random_seed),DecisionTreeClassifier(),
                    RandomForestClassifier(random_state=random_seed, n_estimators=50), AdaBoostClassifier(), LinearDiscriminantAnalysis(),QuadraticDiscriminantAnalysis(),
-                   LinearSVC(random_state=random_seed), MLPClassifier(alpha=1), GradientBoostingClassifier(random_state=random_seed,  max_depth=5)]
+                   LinearSVC(random_state=random_seed), MLPClassifier(alpha=1), GradientBoostingClassifier(random_state=random_seed,  max_depth=3)]
 
     # fit and evaluate for 10-cv
     index = 0

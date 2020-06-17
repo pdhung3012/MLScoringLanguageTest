@@ -164,10 +164,10 @@ def getDataByNGram(fpInputYear,fpOutputYear,prefix,nGram):
 
 
 def main():
-    arrNGram=[1,2,3,4]
+    # arrNGram=[1,2,3,4]
+    nGramNum = 3
     fpInput = 'all-formA.csv'
-    folder = "../../../../resultETI/cva_tf_idf_4/"
-
+    folder = "../../../../resultETI/cva_tf_idf_"+str(nGramNum)+"/"
     createDir(folder)
 
     # for idx in range(0,len(arrNGram)):
@@ -188,9 +188,9 @@ def main():
     fpOutputFormBAdvance = folder+'BA_10cv.csv'
 
 
-    getDataByNGram(fpInput, fpOutputIntermediate,'I-',4)
-    getDataByNGram(fpInput, fpOutputNovice, 'N-',4)
-    getDataByNGram(fpFormBInput, fpOutputFormBIntermediate, 'I-',4)
-    getDataByNGram(fpFormBInput, fpOutputFormBAdvance, 'A-',4)
+    getDataByNGram(fpInput, fpOutputIntermediate,'I-',nGramNum)
+    getDataByNGram(fpInput, fpOutputNovice, 'N-',nGramNum)
+    getDataByNGram(fpFormBInput, fpOutputFormBIntermediate, 'I-',nGramNum)
+    getDataByNGram(fpFormBInput, fpOutputFormBAdvance, 'A-',nGramNum)
 
 main()

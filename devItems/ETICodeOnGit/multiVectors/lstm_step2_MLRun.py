@@ -29,7 +29,7 @@ from multiVectors.utils import createDir
 
 # set file directory
 arrConfigs=['AI','AN','BI','BA']
-fop="../../../../resultETI/d2v/"
+fop="../../../../resultETI/lstm/"
 createDir(fop)
 
 for idx in range(0,len(arrConfigs)):
