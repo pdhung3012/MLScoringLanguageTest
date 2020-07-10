@@ -294,7 +294,7 @@ for filename in os.listdir(clean_directory):
     # print('train-test {} {} {}'.format(len(data_sq),len(x_train),len(x_test)))
     # y_train, y_test = enc[:math.floor(x_dim[0]*0.7),], enc[math.floor(x_dim[0]*0.7):,]
 
-    kf = KFold(n_splits=10,shuffle=False)
+    kf = KFold(n_splits=10,shuffle=True,random_state=30)
     kf.get_n_splits(data_sq)
     print(kf)
 
@@ -306,6 +306,7 @@ for filename in os.listdir(clean_directory):
     # RNN Attention Model
     att_model = model_lstm_atten(emb_mtx)
 
+    listIndexesCV=[]
     listPredictedCNN = []
     listTestCNN = []
     listPredictedLSTM = []
@@ -315,6 +316,11 @@ for filename in os.listdir(clean_directory):
         # print("TRAIN:", train_index, "TEST:", test_index)
         x_train, x_test = data_sq[train_index], data_sq[test_index]
         y_train, y_test = enc[train_index], enc[test_index]
+
+
+        for item in test_index:
+            listIndexesCV.append(item)
+
 
         # CNN Model training
         cnn_model.fit(x_train, y_train, validation_split=0.1, epochs=15)
@@ -338,12 +344,14 @@ for filename in os.listdir(clean_directory):
             indexMax = listItem.index(max(listItem))
             listPredictedLSTM.append(dictLabel[indexMax])
             listTestLSTM.append(dictLabel[y_test[index]])
+        # break
 
     # x_train, x_test, y_train, y_test = train_test_split(
     #     data_sq, enc, test_size = 0.2, random_state = 42)
     # print('{} aaa {}'.format(y_predict_number,y_test))
+    np.savetxt(log_directory + typeName + '_index.txt', listIndexesCV, fmt='%s', delimiter=',')
     np.savetxt(log_directory+typeName+ '_cnn_predicted.txt', listPredictedCNN, fmt='%s', delimiter=',')
-    np.savetxt(log_directory + typeName + 'cnn_test.txt', listTestCNN, fmt='%s', delimiter=',')
+    np.savetxt(log_directory + typeName + '_cnn_test.txt', listTestCNN, fmt='%s', delimiter=',')
     o2 = open(log_directory + 'all_cnn.txt', 'a')
     o2.write('Result for ' + str(typeName) + '\n')
     # o2.write(str(sum(cross_val) / float(len(cross_val))) + '\n')

@@ -24,23 +24,19 @@ import pandas as pd
 import os
 from sklearn.preprocessing import LabelBinarizer
 import math
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report,confusion_matrix
-from multiVectors.utils import createDir
-from sklearn.model_selection import KFold
+import sys
+from sklearn.model_selection import cross_val_score, cross_val_predict, StratifiedKFold, train_test_split
 
 cwd = os.getcwd()
 os.chdir(cwd)
 # base_directory = cwd
-base_directory = '/home/hung/git/resultETI/SpanishRater/'
+base_directory = '/home/hung/git/Software-Point-Estimation/Deep Learning Models/'
 print(base_directory)
-
 # directory = cwd + '/Data'
 # clean_directory = cwd + '/Clean_Data'
-# directory = base_directory + '/Data'
-clean_directory = base_directory + '/inputCsvs/'
-log_directory = base_directory + '/log/'
-createDir(log_directory)
+directory = base_directory + '/Data'
+clean_directory = base_directory + '/Clean_Data'
+
 config = tf.ConfigProto()
 config.gpu_options.allow_growth=True
 sess = tf.Session(config=config)
@@ -54,33 +50,14 @@ lb = LabelBinarizer() #for one-hot encoding of response
 
 #create glove embeddings    
 def load_glove_index():
-    EMBEDDING_FILE = base_directory + '/pretrainedGlove/glove-sbwc.i25.vec'
-    EMBEDDING_FILE_FILTER = base_directory + '/pretrainedGlove/glove-sbwc.i25_filter.vec'
-    # Using readlines()
-    # file1 = open(EMBEDDING_FILE, 'r')
-    # Lines = file1.readlines()
-    # file1.close()
-    # Lines.pop(0)
-    # print('len {}'.format(len(Lines)))
-    # file1 = open(EMBEDDING_FILE_FILTER, 'w')
-    # count=0
-    # for count in range(1,len(Lines)):
-    #     line=Lines[count]
-    #     file1.write('{}'.format(line))
-    #     # arrItem=line.split(' ')
-    #     # print("Line{}: {}".format(count, len(arrItem)))
-    # file1.close()
-
+    EMBEDDING_FILE = base_directory + '/glove.6B.300d.txt'
     def get_coefs(word,*arr): return word, np.asarray(arr, dtype='float32')[:300]
-    # , encoding = "utf8"
-    embeddings_index = dict(get_coefs(*o.split(" ")) for o in open(EMBEDDING_FILE_FILTER))
-    # print('{}'.format(embeddings_index['de']))
+    embeddings_index = dict(get_coefs(*o.split(" ")) for o in open(EMBEDDING_FILE, encoding="utf8"))
     return embeddings_index
    
 #Create glove embedding matrix for convolutional operations    
 def create_glove(word_index,embeddings_index):
     emb_mean,emb_std = -0.005838499,0.48782197
-    # print('len embedding index {} {}'.format(len(embeddings_index),len(embeddings_index.values())))
     all_embs = np.stack(embeddings_index.values())
     embed_size = all_embs.shape[1]
     nb_words = min(vocab_size, len(word_index))
@@ -102,8 +79,8 @@ def create_glove(word_index,embeddings_index):
                     count_found-=1
             else:
                 count_found-=1
-    # print("Got embedding for ",count_found," words.")
-    # print("{} aaa {} {} ".format(len(embeddings_index),len(word_index),len(embedding_matrix)))
+    print("Got embedding for ",count_found," words.")
+    print("{} aaa {} {} ".format(len(embeddings_index),len(word_index),len(embedding_matrix)))
     return embedding_matrix    
         
 #Vanilla Convolutional Neural Network Model    
@@ -244,131 +221,83 @@ def model_lstm_atten(embedding_matrix):
 
 #Setup Embedding matrix
 glove_embedding_index = load_glove_index()
-# print('{}'.format(len(glove_embedding_index)))
+print('{}'.format(len(glove_embedding_index)))
 # exit(0)
 
-# with open((base_directory + "/DL-Model_Accuracy.txt"), 'a') as model:
-#          model.write("\n project || Model || Loss || Accuracy \n")
-# print('hello world abcxyz')
+with open((base_directory + "/DL-Model_Accuracy.txt"), 'w') as model:
+         model.write("\n project || Model || Loss || Accuracy \n")
+print('hello world abcxyz')
 #Iterate through datasets applying CNN and Attention models
-o2 = open(log_directory + 'all_lstmAndRNN.txt', 'w')
-o2.write('')
-o2.close()
-o2 = open(log_directory + 'all_cnn.txt', 'w')
-o2.write('')
-o2.close()
-
 for filename in os.listdir(clean_directory):
     print(filename)
-    typeName=filename.replace('_text.csv','')
+    # try:
     df = pd.read_csv(clean_directory + "/" + filename)
-    data = df.reset_index()[['response', 'score']]
+    data = df.reset_index()[['description', 'storypoint']]
 
-    # print('{}'.format(data['score']))
-    # data.loc[(data.storypoint <= 4), 'storypoints_mod'] = 'low'
-    # data.loc[(data.storypoint >13), 'storypoints_mod'] = 'high'
-    # data.loc[((data.storypoint <=13) & (data.storypoint > 4)), 'storypoints_mod'] = 'medium'
+    # raw_data.loc[raw_data.storypoint <= 2, 'storypoint'] = 0  # small
+    # raw_data.loc[(raw_data.storypoint > 2) & (raw_data.storypoint <= 8), 'storypoint'] = 1  # medium
+    # raw_data.loc[(raw_data.storypoint > 8) & (raw_data.storypoint <= 15), 'storypoint'] = 2  # large
+    # raw_data.loc[raw_data.storypoint > 15, 'storypoint'] = 3  # very large
 
-    # uniqueLabel = list(set(tuple(x) for x in data['score']))
-    uniqueLabel =set(data['score'])
-    uniqueLabel = sorted(uniqueLabel)
-    dictLabel={}
-    for ii in range(len(uniqueLabel)):
-        dictLabel[ii]=uniqueLabel[ii]
-    print('{}'.format(uniqueLabel))
+    data.loc[(data.storypoint <= 2), 'storypoints_mod'] = 0
 
-    data['sp'] = lb.fit_transform(data['score']).tolist()
-    data = data[['response', 'sp']]
-    enc = [data['sp'][i].index(1) for i in range(df.shape[0])]
+    data.loc[((data.storypoint <= 8) & (data.storypoint > 2)), 'storypoints_mod'] = 1
+    data.loc[((data.storypoint <= 15) & (data.storypoint > 8)), 'storypoints_mod'] = 2
+    data.loc[(data.storypoint > 15), 'storypoints_mod'] = 3
+    # data['sp'] = lb.fit_transform(data['storypoints_mod']).tolist()
+    data['sp']=data['storypoints_mod']
+    data = data[['description', 'sp']]
+    # enc = [data['sp'][i].index(1) for i in range(df.shape[0])]
+    # enc = np.asarray(enc)
+    enc =data['sp']
     enc = np.asarray(enc)
-    
-    #data setup
-    tokenizer.fit_on_texts(df['response'].astype(str)) #index of words with length vocab size, ordered in length of frequency
-    sequences = tokenizer.texts_to_sequences(df['response'].astype(str))
+    print('enc {} {}'.format(type(enc),enc))
+
+    # data setup
+    tokenizer.fit_on_texts(
+        df['description'].astype(str))  # index of words with length vocab size, ordered in length of frequency
+    sequences = tokenizer.texts_to_sequences(df['description'].astype(str))
     data_sq = pad_sequences(sequences, maxlen=maxlen)
     # print('{}'.format(tokenizer))
-    
+
     split = 0.7
     x_dim = data_sq.shape
-    # x_train, x_test = data_sq[:math.floor(x_dim[0]*0.7),:], data_sq[math.floor(x_dim[0]*0.7):,:]
-    # print('train-test {} {} {}'.format(len(data_sq),len(x_train),len(x_test)))
-    # y_train, y_test = enc[:math.floor(x_dim[0]*0.7),], enc[math.floor(x_dim[0]*0.7):,]
+    # x_train, x_test = data_sq[:math.floor(x_dim[0] * 0.7), :], data_sq[math.floor(x_dim[0] * 0.7):, :]
+    #
+    # y_train, y_test = enc[:math.floor(x_dim[0] * 0.7), ], enc[math.floor(x_dim[0] * 0.7):, ]
+    x_train, x_test, y_train, y_test = train_test_split(data_sq, enc, test_size=0.2, shuffle=False,
+                                                        stratify=None)
 
-    kf = KFold(n_splits=10,shuffle=False)
-    kf.get_n_splits(data_sq)
-    print(kf)
-
-    #create embedding glove matrix for words
+    # create embedding glove matrix for words
     emb_mtx = create_glove(tokenizer.word_index, glove_embedding_index)
-    # print('{}'.format(len(emb_mtx)))
+
+    print('{}'.format(len(emb_mtx)))
     cnn_model = basic_cnn(emb_mtx)
+
+    # CNN Model training
+    cnn_model.fit(x_train, y_train, validation_split=0.1, epochs=15)
+    loss, acc = cnn_model.evaluate(x_test, y_test)
+
+    y_predict = cnn_model.predict(x_test)
+    # print('abc {} {}'.format(len(x_test), y_predict))
+    # print("predictions shape:", y_predict.shape)
+    with open((base_directory + "/DL-Model_Accuracy.txt"), 'a') as model:
+        model.write(filename + " Basic-CNN-Model " + str(loss) + " " + str(acc) + "\n")
 
     # RNN Attention Model
     att_model = model_lstm_atten(emb_mtx)
+    att_model.fit(x_train, y_train, validation_split=0.1, epochs=15)
+    loss, acc = att_model.evaluate(x_test, y_test)
+    with open((base_directory + "/DL-Model_Accuracy.txt"), 'a') as model:
+        model.write(filename + " LSTM-Attention " + str(loss) + " " + str(acc) + "\n")
+    # except:
+    #     e = sys.exc_info()[0]
+    #     print('error {} {}'.format(filename,e))
 
-    listPredictedCNN = []
-    listTestCNN = []
-    listPredictedLSTM = []
-    listTestLSTM = []
-
-    for train_index, test_index in kf.split(data_sq):
-        # print("TRAIN:", train_index, "TEST:", test_index)
-        x_train, x_test = data_sq[train_index], data_sq[test_index]
-        y_train, y_test = enc[train_index], enc[test_index]
-
-        # CNN Model training
-        cnn_model.fit(x_train, y_train, validation_split=0.1, epochs=15)
-        y_predict_number = cnn_model.predict(x_test)
-        for index in range(len(y_predict_number)):
-            # print('{}'.format(y_predict_number[index]))
-            listItem = y_predict_number[index].tolist()
-            indexMax = listItem.index(max(listItem))
-            listPredictedCNN.append(dictLabel[indexMax])
-            listTestCNN.append(dictLabel[y_test[index]])
-
-        #LSTM and attention
-        att_model.fit(x_train, y_train, validation_split=0.1, epochs=15)
-        # loss, acc = att_model.evaluate(x_test, y_test)
-
-        y_predict_number = att_model.predict(x_test)
-        # print('{} aaa {}'.format(y_predict_number,y_test))
-        for index in range(len(y_predict_number)):
-            # print('{}'.format(y_predict_number[index]))
-            listItem = y_predict_number[index].tolist()
-            indexMax = listItem.index(max(listItem))
-            listPredictedLSTM.append(dictLabel[indexMax])
-            listTestLSTM.append(dictLabel[y_test[index]])
-
-    # x_train, x_test, y_train, y_test = train_test_split(
-    #     data_sq, enc, test_size = 0.2, random_state = 42)
-    # print('{} aaa {}'.format(y_predict_number,y_test))
-    np.savetxt(log_directory+typeName+ '_cnn_predicted.txt', listPredictedCNN, fmt='%s', delimiter=',')
-    np.savetxt(log_directory + typeName + 'cnn_test.txt', listTestCNN, fmt='%s', delimiter=',')
-    o2 = open(log_directory + 'all_cnn.txt', 'a')
-    o2.write('Result for ' + str(typeName) + '\n')
-    # o2.write(str(sum(cross_val) / float(len(cross_val))) + '\n')
-    o2.write(str(confusion_matrix(listTestCNN, listPredictedCNN)) + '\n')
-    o2.write(str(classification_report(listTestCNN, listPredictedCNN)) + '\n')
-    o2.close()
-    # print('abc {}'.format(enc))
-    # print("predictions shape:", y_predict.shape)
-    # loss, acc = cnn_model.evaluate(x_test, y_test)
-    # with open((base_directory + "/DL-Model_Accuracy.txt"), 'a') as model:
-    #          model.write(filename + " Basic-CNN-Model " + str(loss) + " " + str(acc) +"\n")
-    np.savetxt(log_directory + typeName + '_lstmAndRNN_predicted.txt', listPredictedLSTM, fmt='%s', delimiter=',')
-    np.savetxt(log_directory + typeName + '_lstmAndRNN_test.txt', listTestLSTM, fmt='%s', delimiter=',')
-    o2 = open(log_directory + 'all_lstmAndRNN.txt', 'a')
-    o2.write('Result for ' + str(typeName) + '\n')
-    # o2.write(str(sum(cross_val) / float(len(cross_val))) + '\n')
-    o2.write(str(confusion_matrix(listTestLSTM, listPredictedLSTM)) + '\n')
-    o2.write(str(classification_report(listTestLSTM, listPredictedLSTM)) + '\n')
-    o2.close()
-    #
-    # with open((base_directory + "/DL-Model_Accuracy.txt"), 'a') as model:
-    #          model.write(filename + " LSTM-Attention " + str(loss) + " " + str(acc) +"\n")
     # break
-# with open((base_directory + "/DL-Model_Accuracy.txt"), 'a'):
-#     pass
+    
+with open((base_directory + "/DL-Model_Accuracy.txt"), 'a'):
+    pass
 
     
 '''
