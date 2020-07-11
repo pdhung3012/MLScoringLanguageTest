@@ -55,8 +55,8 @@ lb = LabelBinarizer()  # for one-hot encoding of response
 
 # create glove embeddings
 def load_glove_index():
-    EMBEDDING_FILE = base_directory + '/pretrainedGlove/glove-sbwc.i25.vec'
-    EMBEDDING_FILE_FILTER = base_directory + '/pretrainedGlove/glove-sbwc.i25_filter.vec'
+    EMBEDDING_FILE = base_directory + '../pretrainedGlove/glove-sbwc.i25.vec'
+    EMBEDDING_FILE_FILTER = base_directory + '../pretrainedGlove/glove-sbwc.i25_filter.vec'
 
     # Using readlines()
     # file1 = open(EMBEDDING_FILE, 'r')
@@ -323,11 +323,17 @@ for filename in os.listdir(clean_directory):
         x_train, x_test = data_sq[train_index], data_sq[test_index]
         y_train, y_test = enc[train_index], enc[test_index]
 
+        cnn_model = basic_cnn(emb_mtx)
+
+        # RNN Attention Model
+        att_model = model_lstm_atten(emb_mtx)
+
+
         for item in test_index:
             listIndexesCV.append(item)
 
         # CNN Model training
-        cnn_model.fit(x_train, y_train, validation_split=0.1, epochs=15)
+        cnn_model.fit(x_train, y_train, validation_split=0.1,  epochs=50,verbose=0)
         y_predict_number = cnn_model.predict(x_test)
         for index in range(len(y_predict_number)):
             # print('{}'.format(y_predict_number[index]))
@@ -337,7 +343,7 @@ for filename in os.listdir(clean_directory):
             listTestCNN.append(dictLabel[y_test[index]])
 
         # LSTM and attention
-        att_model.fit(x_train, y_train, validation_split=0.1, epochs=15)
+        att_model.fit(x_train, y_train, validation_split=0.1, epochs=50,verbose=0)
         # loss, acc = att_model.evaluate(x_test, y_test)
 
         y_predict_number = att_model.predict(x_test)
