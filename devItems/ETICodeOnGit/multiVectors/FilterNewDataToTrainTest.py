@@ -12,10 +12,10 @@ fopOutput='/home/hung/git/resultETI/combineExcels/testData/'
 createDir(fopOutput)
 
 dfAll=pd.read_csv(fpInput,encoding='latin-1')
-dfFilterBA=dfAll[dfAll['Form'].str.startswith('B') & dfAll['Score'].str.startswith('A')  & ~dfAll['Score'].isin(['A-UR'])]
-dfFilterBI=dfAll[dfAll['Form'].str.startswith('B') & dfAll['Score'].str.startswith('I')  & ~dfAll['Score'].isin(['I-UR'])]
-dfFilterAN=dfAll[dfAll['Form'].str.startswith('A') & dfAll['Score'].str.startswith('N')  & ~dfAll['Score'].isin(['N-UR'])]
-dfFilterAI=dfAll[dfAll['Form'].str.startswith('A') & dfAll['Score'].str.startswith('I')  & ~dfAll['Score'].isin(['I-UR'])]
+dfFilterBA=dfAll[dfAll['Form'].str.startswith('B') & dfAll['Score'].str.startswith('A')  & ~dfAll['Score'].isin(['A-UR'])].groupby(['TestId,Topic,Score'])
+dfFilterBI=dfAll[dfAll['Form'].str.startswith('B') & dfAll['Score'].str.startswith('I')  & ~dfAll['Score'].isin(['I-UR'])].groupby(['TestId,Topic,Score'])
+dfFilterAN=dfAll[dfAll['Form'].str.startswith('A') & dfAll['Score'].str.startswith('N')  & ~dfAll['Score'].isin(['N-UR'])].groupby(['TestId,Topic,Score'])
+dfFilterAI=dfAll[dfAll['Form'].str.startswith('A') & dfAll['Score'].str.startswith('I')  & ~dfAll['Score'].isin(['I-UR'])].groupby(['TestId,Topic,Score'])
 # print(dfFilterBA)
 dfFilterAN.to_csv(fopOutput+'AN.csv')
 dfFilterAI.to_csv(fopOutput+'AI.csv')
