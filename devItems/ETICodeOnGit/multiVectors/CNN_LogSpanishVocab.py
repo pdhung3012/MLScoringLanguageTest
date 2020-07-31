@@ -41,7 +41,8 @@ print(base_directory)
 # directory = cwd + '/Data'
 # clean_directory = cwd + '/Clean_Data'
 # directory = base_directory + '/Data'
-clean_directory = base_directory + '/inputCsvs/'
+# clean_directory = base_directory + '/inputCsvs/'
+clean_directory = base_directory + '/inputTextNormalize/'
 log_directory = base_directory + '/log/'
 vocab_directory = base_directory + '/vocab/'
 
