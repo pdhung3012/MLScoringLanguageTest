@@ -272,12 +272,12 @@ for filename in os.listdir(train_directory):
 
     for i in range(len(df['score'])):
         listResponses.append(str(df['response'][i]))
-        # print(str(df['score'][i]))
         listScore.append(str(df['score'][i]))
     numTrain=len(listResponses)
     for i in range(len(testDF['Score'])):
         listResponses.append(str(testDF['Response'][i]))
         listScore.append(str(testDF['Score'][i]))
+        # print('{}\t{}'.format(i,str(df['response'][i])))
 
 
 
@@ -339,17 +339,18 @@ for filename in os.listdir(train_directory):
     countFold=0
     # for train_index, test_index in kf.split(data_sq):
         # print("TRAIN:", train_index, "TEST:", test_index)
-    countFold=countFold+1
-    print('begin fold {}'.format(countFold))
+    # countFold=countFold+1
+    # print('begin fold {}'.format(countFold))
     enc = np.asarray(enc)
     data_sq= np.asarray(data_sq)
+    print(data_sq)
     x_train, x_test = data_sq[:numTrain-1], data_sq[numTrain:]
     y_train, y_test = enc[:numTrain-1], enc[numTrain:]
 
     # reshape input to be 3D [samples, timesteps, features]
     # x_train = x_train.reshape((x_train.shape[0], 1, x_train.shape[1]))
     # x_test = x_test.reshape((x_test.shape[0], 1, x_test.shape[1]))
-    print(x_test)
+    # print(x_test)
 
     cnn_model = basic_cnn(emb_mtx)
 
@@ -361,9 +362,9 @@ for filename in os.listdir(train_directory):
 
 
     # CNN Model training
-    cnn_model.fit(x_train, y_train, validation_split=0.1, epochs=50,verbose=0)
-    # cnn_model.fit(x_train, y_train, epochs=50, batch_size=72, validation_data=(x_test, y_test), verbose=0,
-    #               shuffle=False)
+    # cnn_model.fit(x_train, y_train, validation_split=0.1, epochs=50,verbose=0)
+    cnn_model.fit(x_train, y_train, epochs=50, batch_size=72, validation_data=(x_test, y_test), verbose=0,
+                  shuffle=False)
     y_predict_number = cnn_model.predict(x_test)
     for index in range(len(y_predict_number)):
         # print('{}'.format(y_predict_number[index]))
@@ -373,9 +374,9 @@ for filename in os.listdir(train_directory):
         listTestCNN.append(dictLabel[y_test[index]])
 
     #LSTM and attention
-    att_model.fit(x_train, y_train, validation_split=0.1, epochs=15,verbose=0)
-    # att_model.fit(x_train, y_train, epochs=50, batch_size=72, validation_data=(x_test, y_test), verbose=0,shuffle=False)
-    # loss, acc = att_model.evaluate(x_test, y_test)
+    # att_model.fit(x_train, y_train, validation_split=0.1, epochs=15,verbose=0)
+    att_model.fit(x_train, y_train, epochs=50, batch_size=72, validation_data=(x_test, y_test), verbose=0,shuffle=False)
+    loss, acc = att_model.evaluate(x_test, y_test)
 
     y_predict_number = att_model.predict(x_test)
     # print('{} aaa {}'.format(y_predict_number,y_test))

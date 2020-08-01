@@ -3,7 +3,7 @@ from multiVectors.utils import createDir,readFile
 from datetime import date, timedelta
 
 
-folder = "../../../../resultETI/dataCollectionFromMarch1st/"
+folder = "../../../../resultETI/dataCollectionFrom2018/"
 
 createDir(folder)
 
@@ -12,8 +12,8 @@ createDir(folder)
 fpLogDays=folder+'logDays.txt'
 
 
-sdate = date(2020, 3, 1)   # start date
-edate = date.today()   # end date
+sdate = date(2018, 1, 1)   # start date
+edate = date(2020, 2, 29)    # end date
 
 delta = edate - sdate       # as timedelta
 lstDays=[]
