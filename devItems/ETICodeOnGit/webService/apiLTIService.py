@@ -73,7 +73,7 @@ def home():
 #     return jsonify(books)
 #
 #
-@app.route('/responses', methods=['GET'])
+@app.route('/responses', methods=['POST', 'GET'])
 def api_jsonData():
     # Check if an ID was provided as part of the URL.
     # If ID is provided, assign it to a variable.

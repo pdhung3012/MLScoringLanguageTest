@@ -25,9 +25,9 @@ PARAMS = {'jsonData': strResponse}
 
 # sending get request and saving the response as response object
 r = requests.get(url=URL, params=PARAMS)
+print(type(r))
+print(r.text)
 
-# extracting data in json format
-# data = r.json()
-
+r = requests.post(url=URL, params=PARAMS)
 print(type(r))
 print(r.text)

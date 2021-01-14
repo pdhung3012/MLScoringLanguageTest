@@ -51,8 +51,8 @@ responses = [
      'promptId': '14'}
 ]
 
-# strResponse = json.dumps(responses)
-# print(strResponse)
+strResponse = json.dumps(responses)
+print(strResponse)
 # strEncode=b64encode(strResponse.encode('utf-8'))
 # print(strEncode)
 # strDecode=b64decode(strEncode).decode('utf-8')
@@ -73,7 +73,7 @@ def home():
 #     return jsonify(books)
 #
 #
-@app.route('/responses', methods=['GET'])
+@app.route('/responses', methods=['POST', 'GET'])
 def api_jsonData():
     # Check if an ID was provided as part of the URL.
     # If ID is provided, assign it to a variable.
