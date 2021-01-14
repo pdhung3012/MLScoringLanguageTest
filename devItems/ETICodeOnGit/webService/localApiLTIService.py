@@ -105,5 +105,5 @@ def api_jsonData():
     # Use the jsonify function from Flask to convert our list of
     # Python dictionaries to the JSON format.
     return jsonify(results)
-
-app.run(host='209.124.64.139',port=5000)
+#
+app.run(port=5000)
