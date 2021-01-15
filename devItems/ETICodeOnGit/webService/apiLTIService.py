@@ -126,7 +126,8 @@ app.config["DEBUG"] = True
 # print(str(responsesObject))
 
 fopModelLocation="../../../../resultETI/d2v/"
-
+import nltk
+nltk.download('punkt')
 
 @app.route('/', methods=['GET'])
 def home():
