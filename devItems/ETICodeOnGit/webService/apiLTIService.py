@@ -22,12 +22,30 @@ from sklearn.metrics import precision_score
 import matplotlib.pyplot as plt; plt.rcdefaults()
 import numpy as np
 import matplotlib.pyplot as plt
-from multiVectors.utils import createDir
 import pickle
 from multiVectors.utils import createDir
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 from nltk.tokenize import word_tokenize
 import traceback
+
+import os
+
+def createDir(folderName):
+    try:
+        # Create target Directory
+        os.mkdir(folderName)
+        print("Directory ", folderName, " Created ")
+    except FileExistsError:
+        print("Directory ", folderName, " already exists")
+def readFile(fp):
+    strResult=''
+    try:
+        file=open(fp,'r')
+        strResult=file.read()
+        file.close()
+    except:
+        print("File ", fp, " doesn't exist")
+    return strResult
 
 
 def predictScore(listResponses,fopModelLocation):
