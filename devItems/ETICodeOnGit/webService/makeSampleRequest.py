@@ -3,7 +3,7 @@ import requests
 import json
 
 # api-endpoint
-URL = "http://127.0.0.1:5000/responses"
+URL = "http://209.124.64.139:5000/responses"
 
 responses = [
     {'testId': '5',
