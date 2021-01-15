@@ -27,6 +27,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from multiVectors.utils import createDir
 
+
 # set file directory
 arrConfigs=['AI','AN','BI','BA']
 fop="../../../../resultETI/d2v/"

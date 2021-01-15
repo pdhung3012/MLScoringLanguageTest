@@ -4,30 +4,73 @@ from base64 import b64encode,b64decode
 import json
 import traceback
 
-app = flask.Flask(__name__)
-app.config["DEBUG"] = True
+import numpy as np
+import pandas as pd
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import LinearSVC
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
+from sklearn.metrics import classification_report,confusion_matrix
+from sklearn.naive_bayes import GaussianNB
+from sklearn.neural_network import MLPClassifier
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
+from sklearn.model_selection import cross_val_score,cross_val_predict, StratifiedKFold
+import os
+from sklearn.metrics import precision_score
+import matplotlib.pyplot as plt; plt.rcdefaults()
+import numpy as np
+import matplotlib.pyplot as plt
+from multiVectors.utils import createDir
+import pickle
+from multiVectors.utils import createDir
+from gensim.models.doc2vec import Doc2Vec, TaggedDocument
+from nltk.tokenize import word_tokenize
+import traceback
 
-# # Create some test data for our catalog in the form of a list of dictionaries.
-# books = [
-#     {'id': 0,
-#      'title': 'A Fire Upon the Deep',
-#      'author': 'Vernor Vinge',
-#      'first_sentence': 'The coldsleep itself was dreamless.',
-#      'year_published': '1992'},
-#     {'id': 1,
-#      'title': 'The Ones Who Walk Away From Omelas',
-#      'author': 'Ursula K. Le Guin',
-#      'first_sentence': 'With a clamor of bells that set the swallows soaring, the Festival of Summer came to the city Omelas, bright-towered by the sea.',
-#      'published': '1973'},
-#     {'id': 2,
-#      'title': 'Dhalgren',
-#      'author': 'Samuel R. Delany',
-#      'first_sentence': 'to wound the autumnal city.',
-#      'published': '1975'}
-# ]
 
-# Create some test data for our catalog in the form of a list of dictionaries.
-# add promptId
+def predictScore(listResponses,fopModelLocation):
+    result=listResponses
+    try:
+        arrConfigs=['AI','AN','BI','BA']
+        dictD2VModels={}
+        dictMLModels = {}
+        for item in arrConfigs:
+            fpModelData=fopModelLocation+item+'_10cv.d2v.txt'
+            fpMLModel = fopModelLocation + item + '_mlmodel.bin'
+            modelD2v = Doc2Vec.load(fpModelData)
+            modelML = pickle.load(open(fpMLModel, 'rb'))
+            dictD2VModels[item]=modelD2v
+            dictMLModels[item]=modelML
+
+        for i in  range(0,len(result)):
+            item = result[i]
+            try:
+                strModelType=item['form']+item['level']
+                modelD2v = dictD2VModels[strModelType]
+                modelML = dictMLModels[strModelType]
+                strContent=item['content']
+                x_data = word_tokenize(strContent)
+                v1 = modelD2v.infer_vector(x_data)
+                arrTestData=[]
+                arrTestData.append(v1)
+                scoreItem=modelML.predict(arrTestData)
+                item['score']=scoreItem[0]
+                # print(scoreItem)
+                result[i]=item
+            except Exception as e:
+                item['score'] = 'UR'
+                result[i] = item
+                string_error = traceback.format_exc()
+                print(string_error)
+
+    except Exception as e:
+        string_error = traceback.format_exc()
+        print(string_error)
+    return result
+
+
 responses = [
     {'testId': '1',
      'content': 'Hola',
@@ -51,6 +94,10 @@ responses = [
      'promptId': '14'}
 ]
 
+app = flask.Flask(__name__)
+app.config["DEBUG"] = True
+
+
 # strResponse = json.dumps(responses)
 # print(strResponse)
 # strEncode=b64encode(strResponse.encode('utf-8'))
@@ -60,6 +107,8 @@ responses = [
 #
 # responsesObject=json.loads(strDecode)
 # print(str(responsesObject))
+
+fopModelLocation="../../../../resultETI/d2v/"
 
 
 @app.route('/', methods=['GET'])
@@ -88,14 +137,11 @@ def api_jsonData():
         else:
             return "Error: No id field provided. Please specify an id."
 
-        # Create an empty list for our results
-        results = []
-
-        # Loop through the data and match results that fit the requested ID.
-        # IDs are unique, but other fields might return many results
-        for responseItem in responseArr:
-            responseItem['score']='MF'
-            results.append(responseItem)
+        # results = []
+        # for responseItem in responseArr:
+        #     responseItem['score']='MF'
+        #     results.append(responseItem)
+        results=predictScore(responseArr,fopModelLocation)
     except Exception as e:
         string_error = traceback.format_exc()
         print(string_error)
@@ -105,5 +151,8 @@ def api_jsonData():
     # Use the jsonify function from Flask to convert our list of
     # Python dictionaries to the JSON format.
     return jsonify(results)
+
+# result=predictScore(responses,fopModelLocation)
+
 
 app.run(host='209.124.64.139',port=5000)
