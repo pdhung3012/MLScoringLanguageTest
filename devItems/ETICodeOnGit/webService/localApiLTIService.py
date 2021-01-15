@@ -52,7 +52,7 @@ responses = [
 ]
 
 strResponse = json.dumps(responses)
-print(strResponse)
+# print(strResponse)
 # strEncode=b64encode(strResponse.encode('utf-8'))
 # print(strEncode)
 # strDecode=b64decode(strEncode).decode('utf-8')
@@ -107,3 +107,23 @@ def api_jsonData():
     return jsonify(results)
 #
 app.run(port=5000)
+
+import requests
+import time
+URL="0.0.0.0:5000/responses"
+
+# defining a params dict for the parameters to be sent to the API
+PARAMS = {'jsonData': strResponse}
+start_time = time.time()
+# sending get request and saving the response as response object
+r = requests.get(url=URL, params=PARAMS)
+print(type(r))
+print(r.text)
+
+# r = requests.post(url=URL, params=PARAMS)
+# print(type(r))
+# print(r.text)
+
+dura=time.time() - start_time
+
+print('Finish receive message in {} second'.format(dura))
