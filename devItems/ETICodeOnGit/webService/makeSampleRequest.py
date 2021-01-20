@@ -29,9 +29,9 @@ responses = [
      'promptId': '12'}
 ]
 
-for i in range(0,10000):
-    item=responses[i%4]
-    responses.append(item)
+# for i in range(0,10000):
+#     item=responses[i%4]
+#     responses.append(item)
 
 
 strResponse = json.dumps(responses)
@@ -41,10 +41,10 @@ PARAMS = {'jsonData': strResponse}
 start_time = time.time()
 # sending get request and saving the response as response object
 r = requests.get(url=URL, params=PARAMS)
-# print(type(r))
-# print(r.text)
+print(type(r))
+print(r.text)
 
-r = requests.post(url=URL, params=PARAMS)
+# r = requests.post(url=URL, params=PARAMS)
 # print(type(r))
 # print(r.text)
 
