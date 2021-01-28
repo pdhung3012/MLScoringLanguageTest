@@ -6,6 +6,7 @@ import time
 # api-endpoint
 URL = "http://209.124.64.139:5000/responses"
 
+# responses=None
 responses = [
     {'testId': '5',
      'content': 'Hola 5',
@@ -38,6 +39,7 @@ strResponse = json.dumps(responses)
 
 # defining a params dict for the parameters to be sent to the API
 PARAMS = {'jsonData': strResponse}
+PARAMS={}
 start_time = time.time()
 # sending get request and saving the response as response object
 r = requests.get(url=URL, params=PARAMS)

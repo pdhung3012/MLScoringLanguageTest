@@ -48,7 +48,7 @@ def readFile(fp):
 
 
 def predictScore(listResponses,fopModelLocation):
-    result=listResponses
+    result=[]
     try:
         arrConfigs=['AI','AN','BI','BA']
         dictD2VModels={}
@@ -61,8 +61,8 @@ def predictScore(listResponses,fopModelLocation):
             dictD2VModels[item]=modelD2v
             dictMLModels[item]=modelML
 
-        for i in  range(0,len(result)):
-            item = result[i]
+        for i in  range(0,len(listResponses)):
+            item = listResponses[i]
             try:
                 strModelType=item['form']+item['level']
                 modelD2v = dictD2VModels[strModelType]
@@ -73,9 +73,14 @@ def predictScore(listResponses,fopModelLocation):
                 arrTestData=[]
                 arrTestData.append(v1)
                 scoreItem=modelML.predict(arrTestData)
+
                 item['score']=scoreItem[0]
+                newItem={}
+                newItem['testId']=item['testId']
+                newItem['promptId'] = item['promptId']
+                newItem['score'] = item['score']
                 # print(scoreItem)
-                result[i]=item
+                result.append(newItem)
             except Exception as e:
                 item['score'] = 'UR'
                 result[i] = item
@@ -173,4 +178,4 @@ def api_jsonData():
 # result=predictScore(responses,fopModelLocation)
 
 
-app.run(host='10.105.29.203',port=5000)
+app.run(host='10.105.29.203',port=80)
