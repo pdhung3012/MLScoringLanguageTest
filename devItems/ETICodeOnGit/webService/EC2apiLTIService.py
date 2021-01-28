@@ -178,4 +178,4 @@ def api_jsonData():
 # result=predictScore(responses,fopModelLocation)
 
 
-app.run(host='10.105.29.203',port=80)
+app.run(host='10.105.29.203',port=5000)
